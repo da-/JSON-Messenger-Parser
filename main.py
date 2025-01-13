@@ -200,6 +200,11 @@ def main(argv):
     inputfolder = full_path(inputfolder)
     outputfile = full_path(outputfile)
 
+    if inputfolder[-1] != '/':
+        inputfolder += '/'
+    if stickers != '' and stickers[-1] != '/':
+        stickers += '/'
+
     # Debugging
     print("Input folder:", inputfolder)
     print("Ouput file:", outputfile)
