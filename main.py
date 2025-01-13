@@ -60,10 +60,12 @@ def buildMessageList(messages, language, inputfolder, stickers):
         addContent = "" # by default
         content = []
 
-        # 6 types : photos, audio_files, sticker, gifs, videos, content (text)
-        if "content" in messages[i].keys() and not "videos" in messages[i].keys(): # text
-            content.append(encodingCorrection(messages[i]["content"]))
-            contentType = "text"
+        # 7 types : photos, audio_files, sticker, gifs, videos, content (text), content (share)
+        if "content" in messages[i].keys() and \
+            not "videos" in messages[i].keys() and \
+            not "share" in messages[i].keys(): # content (text)
+                content.append(encodingCorrection(messages[i]["content"]))
+                contentType = "text"
         elif "photos" in messages[i].keys(): # photos (path)
             for photo in messages[i]["photos"]:
                 content.append(mediaManager(encodingCorrection(photo["uri"]), "photos", inputfolder, stickers))
@@ -85,6 +87,14 @@ def buildMessageList(messages, language, inputfolder, stickers):
         elif "sticker" in messages[i].keys(): # sticker (path)
             content.append(mediaManager(encodingCorrection(messages[i]["sticker"]["uri"]), "sticker", inputfolder, stickers))
             contentType = "sticker"
+        elif "share" in messages[i].keys(): # content (share)
+            if "content" in messages[i].keys():
+                content.append(encodingCorrection(messages[i]["content"]))
+            combined_content = encodingCorrection(messages[i]["share"]["link"])
+            if "share_text" in messages[i]["share"].keys():
+                combined_content += " " + encodingCorrection(messages[i]["share"]["share_text"])
+            content.append(combined_content)
+            contentType = "text"
 
         timestamp = messages[i]["timestamp_ms"]
         date = ""
