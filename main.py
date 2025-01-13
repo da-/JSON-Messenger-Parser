@@ -111,7 +111,6 @@ def buildMessageList(messages, language, inputfolder, stickers):
 
     return L
 
-
 def mediaManager(path, contentType, inputfolder, stickers):
     '''
     returns the correct path for a media file
@@ -119,13 +118,13 @@ def mediaManager(path, contentType, inputfolder, stickers):
     filename = os.path.basename(path)
     filepath = ""
     if contentType == "photos":
-        filepath = inputfolder + '/photos/' + filename
+        filepath = os.path.join(inputfolder, '..', 'photos', filename)  # Go up one level
     elif contentType == "audio_files":
-        filepath = inputfolder + '/audio/' + filename
+        filepath = os.path.join(inputfolder, '..', 'audio', filename)   # Go up one level
     elif contentType == "gifs":
-        filepath = inputfolder + '/gifs/' + filename
+        filepath = os.path.join(inputfolder, '..', 'gifs', filename)    # Go up one level
     elif contentType == "videos":
-        filepath = inputfolder + '/videos/' + filename
+        filepath = os.path.join(inputfolder, '..', 'videos', filename)  # Go up one level
     elif contentType == "sticker" and stickers != '':
         filepath = stickers + filename
 
